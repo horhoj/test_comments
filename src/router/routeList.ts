@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { generatePath } from 'react-router-dom';
-import { HomePage } from '../pages/HomePage';
 import { Page404 } from '../pages/Page404';
-import { TestPage } from '../pages/TestPage';
+import { PostListPage } from '../pages/PostListPage';
+import { PostEditPage } from '../pages/PostEditPage';
 
 interface RouteItem {
   name: Routes;
@@ -10,19 +10,19 @@ interface RouteItem {
   component: FC;
 }
 
-export type Routes = 'Home' | 'TestPage' | 'Page404';
+export type Routes = 'PostListPage' | 'PostEditPage' | 'Page404';
 
 export const routeList: RouteItem[] = [
   {
-    name: 'Home',
-    path: '/',
-    component: HomePage,
+    name: 'PostListPage',
+    path: '/post-list',
+    component: PostListPage,
   },
 
   {
-    name: 'TestPage',
-    path: '/test-page/:id',
-    component: TestPage,
+    name: 'PostEditPage',
+    path: '/post-edit-page/:id',
+    component: PostEditPage,
   },
 
   {
