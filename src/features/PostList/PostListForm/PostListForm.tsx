@@ -8,6 +8,9 @@ import { PostItemForm } from './PostItemForm';
 export const PostListForm: FC = () => {
   const dispatch = useAppDispatch();
   const postList = useAppSelector(postListSlice.selectors.getPostList);
+  const showCommentListPostId = useAppSelector(
+    postListSlice.selectors.getShowCommentListPostId,
+  );
 
   const handlePostItemEdit = (id: number) => {
     const path = getRoutePath('PostEditPage', id.toString());
@@ -25,6 +28,14 @@ export const PostListForm: FC = () => {
   const handlePostItemAdd = () => {
     const path = getRoutePath('PostNewPage');
     dispatch(appSlice.actions.redirect(path));
+  };
+
+  const handleShowCommentListForPostItem = (id: number) => {
+    dispatch(postListSlice.actions.setShowCommentListPostId(id));
+  };
+
+  const handleHideCommentListForPostItem = () => {
+    dispatch(postListSlice.actions.setShowCommentListPostId(null));
   };
 
   return (
@@ -48,6 +59,9 @@ export const PostListForm: FC = () => {
                   index={index + 1}
                   onEdit={handlePostItemEdit}
                   onDelete={handlePostItemDelete}
+                  onShowCommentList={handleShowCommentListForPostItem}
+                  onHideCommentList={handleHideCommentListForPostItem}
+                  isShowCommentList={postListItem.id === showCommentListPostId}
                 />
               </div>
             ))

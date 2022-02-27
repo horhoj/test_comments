@@ -10,6 +10,7 @@ interface InitialState {
   requestError: RequestError | null;
   postList: PostListItem[] | null;
   maxId: number;
+  showCommentListPostId: number | null;
 }
 
 const initialState: InitialState = {
@@ -17,12 +18,17 @@ const initialState: InitialState = {
   postList: null,
   requestError: null,
   maxId: 0,
+  showCommentListPostId: null,
 };
 
 export const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState,
   reducers: {
+    setShowCommentListPostId: (state, action: PayloadAction<number | null>) => {
+      state.showCommentListPostId = action.payload;
+    },
+
     deletePost: (state, action: PayloadAction<number>) => {
       if (state.postList) {
         state.postList = state.postList.filter(

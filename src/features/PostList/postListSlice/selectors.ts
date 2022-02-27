@@ -9,3 +9,6 @@ export const getPostList = (state: RootState): PostListItem[] | null =>
 
 export const getRequestError = (state: RootState): RequestError | null =>
   state.postList.requestError;
+
+export const getShowCommentListPostId = (state: RootState): number | null =>
+  state.postList.showCommentListPostId;

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { PostListItem } from '../../types';
+import { CommentListForm } from '../../../commentList/CommentListForm';
 import styles from './PostItemForm.module.scss';
 
 interface PostItemFormProps {
@@ -7,6 +8,9 @@ interface PostItemFormProps {
   postListItem: PostListItem;
   onEdit(id: number): void;
   onDelete(id: number): void;
+  onShowCommentList(id: number): void;
+  onHideCommentList(): void;
+  isShowCommentList: boolean;
 }
 
 export const PostItemForm: FC<PostItemFormProps> = ({
@@ -14,6 +18,9 @@ export const PostItemForm: FC<PostItemFormProps> = ({
   index,
   onEdit,
   onDelete,
+  onShowCommentList,
+  onHideCommentList,
+  isShowCommentList,
 }) => {
   const handleEditBtnClk = () => {
     onEdit(postListItem.id);
@@ -21,6 +28,10 @@ export const PostItemForm: FC<PostItemFormProps> = ({
 
   const handleDeleteBtnClk = () => {
     onDelete(postListItem.id);
+  };
+
+  const handleShowCommentListBtnClk = () => {
+    onShowCommentList(postListItem.id);
   };
 
   return (
@@ -49,6 +60,30 @@ export const PostItemForm: FC<PostItemFormProps> = ({
         {index}. {postListItem.title}
       </div>
       <div>{postListItem.body}</div>
+      {isShowCommentList ? (
+        <>
+          <div className="d-flex justify-content-end">
+            <button
+              type={'button'}
+              className="btn btn-secondary"
+              onClick={onHideCommentList}
+            >
+              Hide comments
+            </button>
+          </div>
+          <CommentListForm id={postListItem.id} />
+        </>
+      ) : (
+        <div className="d-flex justify-content-end">
+          <button
+            type={'button'}
+            className="btn btn-secondary"
+            onClick={handleShowCommentListBtnClk}
+          >
+            Show comments
+          </button>
+        </div>
+      )}
     </div>
   );
 };
