@@ -33,6 +33,14 @@ export const { actions, reducer } = createSlice({
       }
     },
 
+    deletePostCommentList: (state, action: PayloadAction<number>) => {
+      if (state.commentList) {
+        state.commentList = state.commentList.filter(
+          (commentListItem) => commentListItem.postId !== action.payload,
+        );
+      }
+    },
+
     addComment: (state, action: PayloadAction<CommentListItem>) => {
       if (state.commentList) {
         const newId = state.maxId + 1;

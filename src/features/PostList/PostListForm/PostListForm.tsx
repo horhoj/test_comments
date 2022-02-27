@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { postListSlice } from '../postListSlice';
 import { getRoutePath } from '../../../router';
 import { appSlice } from '../../../store/app';
+import { commentListSlice } from '../../commentList/commentListSlice';
 import { PostItemForm } from './PostItemForm';
 
 export const PostListForm: FC = () => {
@@ -22,6 +23,7 @@ export const PostListForm: FC = () => {
     const msg = `Delete post with id=${id}`;
     if (confirm(msg)) {
       dispatch(postListSlice.actions.deletePost(id));
+      dispatch(commentListSlice.actions.deletePostCommentList(id));
     }
   };
 
