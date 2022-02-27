@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { PostListItem } from '../types';
 import styles from './PostListItemForm.module.scss';
 
@@ -10,6 +11,11 @@ interface PostListItemFormProps {
   onSubmit(values: PostListItem): void;
 }
 
+const validationSchema = yup.object({
+  title: yup.string().required('Must not be empty!'),
+  body: yup.string().required('Must not be empty!'),
+});
+
 export const PostListItemForm: FC<PostListItemFormProps> = ({
   initialValues,
   onCancel,
@@ -19,6 +25,7 @@ export const PostListItemForm: FC<PostListItemFormProps> = ({
   const formik = useFormik<PostListItem>({
     initialValues,
     onSubmit,
+    validationSchema,
   });
 
   return (
@@ -38,7 +45,7 @@ export const PostListItemForm: FC<PostListItemFormProps> = ({
           {...formik.getFieldProps('title')}
         />
         {Boolean(formik.touched.title) && Boolean(formik.errors.title) ? (
-          <div className="msg-error">{formik.errors.title}</div>
+          <div className="text-danger">{formik.errors.title}</div>
         ) : null}
       </div>
 
@@ -51,7 +58,7 @@ export const PostListItemForm: FC<PostListItemFormProps> = ({
           rows={5}
         />
         {Boolean(formik.touched.body) && Boolean(formik.errors.body) ? (
-          <div className="msg-error">{formik.errors.body}</div>
+          <div className="text-danger">{formik.errors.body}</div>
         ) : null}
       </div>
 

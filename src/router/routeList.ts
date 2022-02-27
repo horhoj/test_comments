@@ -3,6 +3,7 @@ import { generatePath } from 'react-router-dom';
 import { Page404 } from '../pages/Page404';
 import { PostListPage } from '../pages/PostListPage';
 import { PostEditPage } from '../pages/PostEditPage';
+import { PostNewPage } from '../pages/PostNewPage';
 
 interface RouteItem {
   name: Routes;
@@ -10,7 +11,11 @@ interface RouteItem {
   component: FC;
 }
 
-export type Routes = 'PostListPage' | 'PostEditPage' | 'Page404';
+export type Routes =
+  | 'PostListPage'
+  | 'PostEditPage'
+  | 'PostNewPage'
+  | 'Page404';
 
 export const routeList: RouteItem[] = [
   {
@@ -20,8 +25,14 @@ export const routeList: RouteItem[] = [
   },
 
   {
+    name: 'PostNewPage',
+    path: '/post-new',
+    component: PostNewPage,
+  },
+
+  {
     name: 'PostEditPage',
-    path: '/post-edit-page/:id',
+    path: '/post-edit/:id',
     component: PostEditPage,
   },
 

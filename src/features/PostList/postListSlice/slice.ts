@@ -9,12 +9,14 @@ interface InitialState {
   isLoading: boolean;
   requestError: RequestError | null;
   postList: PostListItem[] | null;
+  maxId: number;
 }
 
 const initialState: InitialState = {
   isLoading: false,
   postList: null,
   requestError: null,
+  maxId: 0,
 };
 
 export const { actions, reducer } = createSlice({
@@ -40,6 +42,14 @@ export const { actions, reducer } = createSlice({
         state.postList[index] = action.payload.postListItem;
       }
     },
+
+    addPost: (state, action: PayloadAction<PostListItem>) => {
+      if (state.postList) {
+        const newId = state.maxId + 1;
+        state.maxId = newId;
+        state.postList.unshift({ ...action.payload, id: newId });
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -51,6 +61,11 @@ export const { actions, reducer } = createSlice({
       .addCase(thunks.getPostListRequest.fulfilled, (state, action) => {
         state.isLoading = false;
         state.postList = action.payload;
+        //get the maxId to use it to get the ID when adding a new entry
+        const postIdList: number[] = action.payload.map(
+          (postListItem) => postListItem.id,
+        );
+        state.maxId = Math.max(...postIdList);
       })
       .addCase(thunks.getPostListRequest.rejected, (state, { error }) => {
         state.isLoading = false;

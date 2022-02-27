@@ -22,9 +22,23 @@ export const PostListForm: FC = () => {
     }
   };
 
+  const handlePostItemAdd = () => {
+    const path = getRoutePath('PostNewPage');
+    dispatch(appSlice.actions.redirect(path));
+  };
+
   return (
-    <div>
+    <div className="d-flex flex-column gap-2">
       <h3 className="h3">Post list</h3>
+      <div>
+        <button
+          type={'button'}
+          className="btn btn-primary"
+          onClick={handlePostItemAdd}
+        >
+          Add post
+        </button>
+      </div>
       <div className="d-flex flex-column gap-2">
         {postList
           ? postList.map((postListItem, index) => (
