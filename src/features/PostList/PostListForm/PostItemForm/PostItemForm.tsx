@@ -71,7 +71,7 @@ export const PostItemForm: FC<PostItemFormProps> = ({
               Hide comments
             </button>
           </div>
-          <CommentListForm id={postListItem.id} />
+          <CommentListForm postId={postListItem.id} />
         </>
       ) : (
         <div className="d-flex justify-content-end">
