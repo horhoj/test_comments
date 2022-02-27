@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { Element, scroller } from 'react-scroll';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { postListSlice } from '../postListSlice';
 import { getRoutePath } from '../../../router';
@@ -6,8 +7,26 @@ import { appSlice } from '../../../store/app';
 import { commentListSlice } from '../../commentList/commentListSlice';
 import { PostItemForm } from './PostItemForm';
 
+const getReactScrollElementName = (id: number): string =>
+  `react-scroll-element-name-${id}`;
+
 export const PostListForm: FC = () => {
   const dispatch = useAppDispatch();
+
+  const [scrollToElementId, setScrollToElementId] = useState<{
+    id: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (scrollToElementId) {
+      scroller.scrollTo(getReactScrollElementName(scrollToElementId.id), {
+        duration: 0,
+        delay: 0,
+        smooth: 'easeInOutQuart',
+      });
+    }
+  }, [scrollToElementId]);
+
   const postList = useAppSelector(postListSlice.selectors.getPostList);
   const showCommentListPostId = useAppSelector(
     postListSlice.selectors.getShowCommentListPostId,
@@ -34,6 +53,7 @@ export const PostListForm: FC = () => {
 
   const handleShowCommentListForPostItem = (id: number) => {
     dispatch(postListSlice.actions.setShowCommentListPostId(id));
+    setScrollToElementId({ id });
   };
 
   const handleHideCommentListForPostItem = () => {
@@ -55,7 +75,10 @@ export const PostListForm: FC = () => {
       <div className="d-flex flex-column gap-2">
         {postList
           ? postList.map((postListItem, index) => (
-              <div key={postListItem.id}>
+              <Element
+                key={postListItem.id}
+                name={getReactScrollElementName(postListItem.id)}
+              >
                 <PostItemForm
                   postListItem={postListItem}
                   index={index + 1}
@@ -65,7 +88,7 @@ export const PostListForm: FC = () => {
                   onHideCommentList={handleHideCommentListForPostItem}
                   isShowCommentList={postListItem.id === showCommentListPostId}
                 />
-              </div>
+              </Element>
             ))
           : null}
       </div>
